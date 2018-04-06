@@ -1,4 +1,5 @@
 // BinaryTree.h
+// Lucas Manker
 
 // A binary tree class using an embedded class for the nodes.
 // All code is implemented here in the .h file.
@@ -20,6 +21,8 @@
 #include <string>
 #include <vector>
 #include <queue>
+
+using namespace std;
 
 
 //***  Binary Tree class  ***//
@@ -106,6 +109,8 @@ public:
 
    std::vector< short > preorder() const;
 
+   std::vector< short > postorder() const;
+
 
 private:
    BinaryNode * tree_;
@@ -184,6 +189,10 @@ private:
    //   values in preorder.
    static void preorder( std::vector< short > & traversal,
       const BinaryNode * subtree );
+
+   static void postorder(std::vector< short > & traversal,
+	   const BinaryNode * subtree);
+
 };
 
 
@@ -286,6 +295,14 @@ std::vector< short >
    return traversal;
 }
 
+std::vector< short >
+BinaryTree::postorder() const
+{
+	std::vector< short > traversal;
+	postorder(traversal, tree_);
+	return traversal;
+}
+
 
 // code for helper functions
 
@@ -366,40 +383,66 @@ void
 }
 
 
-long
-   BinaryTree:: size( const BinaryNode * subtree )
+long BinaryTree:: size( const BinaryNode * subtree )
 {
-  //TODO
-   return  -1;
+   if (subtree == NULL) {
+	   return 0;
+   }
+   else {
+	   return size(subtree->left_) + 1 + size(subtree->right_);
+	   cout << ("%d", subtree->entry_)<<endl;
+   }
 }
 
 
-long
-   BinaryTree:: height( const BinaryNode * subtree )
+long BinaryTree:: height( const BinaryNode * subtree )
 {
-  //TODO
-   return  -2;
+	if (subtree == NULL) {
+		return 0;
+  }
+	else {
+		long rSize = height(subtree->right_);
+		long lSize = height(subtree->left_);
+		if (rSize > lSize) {
+			return rSize + 1;
+		}
+		else {
+			return lSize + 1;
+		}
+	}
 }
 
 
 long
    BinaryTree:: leaves( const BinaryNode * subtree )
 {
-  //TODO
-   return  -3;
+	if (subtree == NULL) {
+		return 0;
+  }
+	else if (subtree->left_ == NULL && subtree->right_ == NULL) {
+		return 1;
+	}
+	else {
+		return leaves(subtree->right_) + leaves(subtree->left_);
+	}
 }
 
 
-short
-   BinaryTree:: leftmost( const BinaryNode * subtree )
+short BinaryTree:: leftmost( const BinaryNode * subtree )
 {
-  //TODO
-   return -4;
+	if (subtree == NULL) {
+		return 0;
+	}
+	else if ( subtree->left_ == NULL) {
+		return subtree->entry_;
+	}
+	else {
+		return leftmost(subtree->left_);
+	}
 }
 
 
-void
-   BinaryTree:: preorder( std::vector< short > & traversal,
+void BinaryTree:: preorder( std::vector< short > & traversal,
       const BinaryNode * subtree )
 {
    if( subtree != NULL )
@@ -409,5 +452,17 @@ void
       preorder( traversal, subtree->right_ );
    }
 }
+
+void BinaryTree::postorder(std::vector< short > & traversal,
+	const BinaryNode * subtree)
+{
+	if (subtree != NULL)
+	{
+		postorder(traversal, subtree->left_);
+		postorder(traversal, subtree->right_);
+		traversal.push_back(subtree->entry_);
+	}
+}
+
 
 #endif

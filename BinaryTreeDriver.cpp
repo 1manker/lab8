@@ -2,7 +2,7 @@
 
 // Exercise the BinaryTree class
 
-// tom bailey   26 mar 01
+// Lucas Manker 4-5-18
 
 // Modified to implement a menu driven system that manipulates
 //   binary trees.
@@ -81,16 +81,27 @@ int
          cout << "leftmost is " << theTree.leftmost() << endl;
       }
 
-      else if( request == "preorder" )
+      else if( request == "postorder" )
       {
-         vector< short > traversal = theTree.preorder();
-         cout << "preorder is ";
+         vector< short > traversal = theTree.postorder();
+         cout << "postorder is ";
          for( unsigned long i=0; i<traversal.size(); ++i )
          {
             cout << traversal.at(i) << "  ";
          }
          cout << endl;
       }
+
+	  else if (request == "preorder")
+	  {
+		  vector< short > traversal = theTree.preorder();
+		  cout << "preorder is ";
+		  for (unsigned long i = 0; i<traversal.size(); ++i)
+		  {
+			  cout << traversal.at(i) << "  ";
+		  }
+		  cout << endl;
+	  }
 
       else
       {
